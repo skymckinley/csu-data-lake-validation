@@ -18,8 +18,11 @@ testfiles = {
 
 for t in testfiles:
     df = pd.read_csv(testfiles[t], low_memory = False)
-    # empty_cols = [col for col in df.columns if ( df[col].replace(r'^\s*$', np.nan, regex=True).isnull().all() )]
-    empty_cols = [col for col in df.columns if ( df[col].isnull().all() )]
+
+    # According to Angela Williams at the Chancellor's Office, any column which contains only null values or
+    # fields with a single space, " ", is considered to be empty for the purposes of this validation.
+
+    empty_cols = [col for col in df.columns if ( df[col].replace(r'^\s*$', np.nan, regex=True).isnull().all() )]
     print(t + " has the following empty columns:")
     for col in empty_cols:
         print(col)
